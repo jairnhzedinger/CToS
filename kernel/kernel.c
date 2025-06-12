@@ -111,6 +111,13 @@ static char getkey() {
         case 0x14: return 't';
         case 0x1f: return 's';
         case 0x39: return ' ';
+        case 0x10: return 'q';
+        case 0x11: return 'w';
+        case 0x20: return 'd';
+        case 0x4b: return 'L';
+        case 0x4d: return 'R';
+        case 0x48: return 'U';
+        case 0x50: return 'D';
         default: return 0;
     }
 }
@@ -128,6 +135,38 @@ static int str_equal(const char* a, const char* b) {
     return *a == *b;
 }
 
+static void draw_char_at(char c, int x, int y) {
+    VIDEO[y * 80 + x] = (uint16_t)c | ((uint16_t)text_color << 8);
+}
+
+static void show_gui(void) {
+    clear_screen();
+    for (int i = 0; i < 80; ++i) {
+        draw_char_at('#', i, 0);
+        draw_char_at('#', i, 24);
+    }
+    for (int i = 0; i < 25; ++i) {
+        draw_char_at('#', 0, i);
+        draw_char_at('#', 79, i);
+    }
+    int x = 40;
+    int y = 12;
+    draw_char_at('*', x, y);
+    while (1) {
+        char k = getkey();
+        if (!k) continue;
+        draw_char_at(' ', x, y);
+        if ((k == 'w') || (k == 'U')) { if (y > 1) y--; }
+        else if ((k == 's') || (k == 'D')) { if (y < 23) y++; }
+        else if ((k == 'a') || (k == 'L')) { if (x > 1) x--; }
+        else if ((k == 'd') || (k == 'R')) { if (x < 78) x++; }
+        else if (k == 'q') break;
+        draw_char_at('*', x, y);
+    }
+    clear_screen();
+    print("> ");
+}
+
 void kernel_main() {
     print("Bem-vindo ao CToS!\nDigite 'help' para ajuda.\n> ");
     char buf[32];
@@ -139,7 +178,7 @@ void kernel_main() {
             buf[pos] = '\0';
             if (pos > 0) {
                 if (str_equal(buf, "help")) {
-                    print("\nComandos disponiveis: help about cls ver beep reboot time rand color\n> ");
+                    print("\nComandos disponiveis: help about cls ver beep reboot time rand color echo gui\n> ");
                 } else if (str_equal(buf, "about")) {
                     print("\nCToS inspirado no OS de Watch Dogs\n> ");
                 } else if (str_equal(buf, "cls")) {
@@ -168,6 +207,13 @@ void kernel_main() {
                 } else if (pos > 6 && buf[0]=='c' && buf[1]=='o' && buf[2]=='l' && buf[3]=='o' && buf[4]=='r' && buf[5]==' ') {
                     set_color(buf[6]-'0');
                     print("\n> ");
+                } else if (pos > 5 && buf[0]=='e' && buf[1]=='c' && buf[2]=='h' && buf[3]=='o' && buf[4]==' ') {
+                    print("\n");
+                    print(&buf[5]);
+                    print("\n> ");
+                } else if (str_equal(buf, "gui")) {
+                    print("\nEntrando na interface...\n");
+                    show_gui();
                 } else {
                     print("\nComando desconhecido\n> ");
                 }
