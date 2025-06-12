@@ -82,7 +82,8 @@ protected_start:
     mov gs, ax
     mov ss, ax
     mov esp, 0x90000
-    jmp 0x100000
+    mov eax, 0x100000
+    jmp eax
 
 TIMES 510 - ($-$$) db 0
 DW 0xaa55
