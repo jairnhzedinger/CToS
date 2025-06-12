@@ -51,6 +51,8 @@ O kernel inclui uma interface simples de linha de comando. Os comandos disponive
 - `time`   - mostra o horario do RTC
 - `rand`   - imprime um numero aleatorio
 - `color X`- altera a cor do texto (0-7)
+- `echo`   - repete o texto fornecido
+- `gui`    - entra em uma interface simples com cursor movido por WASD ou setas
 
 ## Help for Dummies
 
