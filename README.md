@@ -9,15 +9,21 @@ CToS e um projeto de sistema operacional simples para PCs x86 com suporte a boot
 - `kernel`           - Kernel inicial
 - `iso`              - Diretorio para imagens
 
-## Compilacao rapida
+## Como compilar
 
-Para compilar o bootloader BIOS e o kernel e executar no QEMU:
+Para gerar a imagem BIOS e testar rapidamente no QEMU execute:
 
 ```
 make run
 ```
 
-Para compilar o bootloader UEFI:
+Para limpar os binarios gerados utilize:
+
+```
+make clean
+```
+
+Para compilar apenas o bootloader UEFI:
 
 ```
 make -C bootloader/uefi
@@ -36,9 +42,15 @@ make -C bootloader/uefi
 
 O kernel inclui uma interface simples de linha de comando. Os comandos disponiveis sao:
 
-- `help`  - mostra esta lista de comandos
-- `about` - informa a inspiracao no jogo Watch Dogs
-- `cls`   - limpa a tela
+- `help`   - mostra esta lista de comandos
+- `about`  - informa a inspiracao no jogo Watch Dogs
+- `cls`    - limpa a tela
+- `ver`    - exibe a versao do CToS
+- `beep`   - aciona o alto-falante do PC
+- `reboot` - reinicia a maquina
+- `time`   - mostra o horario do RTC
+- `rand`   - imprime um numero aleatorio
+- `color X`- altera a cor do texto (0-7)
 
 ## Help for Dummies
 
@@ -47,3 +59,6 @@ O kernel inclui uma interface simples de linha de comando. Os comandos disponive
 3. Crie uma nova maquina virtual usando o tipo *Other/Unknown (32-bit)*.
 4. Aponte o arquivo `ctos.img` gerado para a unidade de disquete ou como disco.
 5. Inicie a VM para ver o CToS em execucao.
+
+Para mudar a cor do texto em tempo de execucao basta digitar `color` seguido de
+um numero de 0 a 7, por exemplo `color 2` para verde.
