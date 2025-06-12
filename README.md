@@ -11,7 +11,13 @@ CToS e um projeto de sistema operacional simples para PCs x86 com suporte a boot
 
 ## Como compilar
 
-Para gerar a imagem BIOS e testar rapidamente no QEMU execute:
+Para gerar somente a imagem BIOS execute:
+
+```
+make
+```
+
+Para testar rapidamente no QEMU utilize:
 
 ```
 make run
